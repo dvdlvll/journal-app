@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
+  before_action :set_categories
 
   # GET /tasks or /tasks.json
   def index
@@ -65,6 +66,10 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:task)
+      params.require(:task).permit(:task, :category_id)
+    end
+
+    def set_categories
+      @categories = Category.all
     end
 end
