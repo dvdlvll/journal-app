@@ -1,7 +1,13 @@
 <div id="<%= dom_id category %>">
   <p>
-    <strong>Name:</strong>
+    <strong>Category:</strong>
     <%= category.name %>
   </p>
+
+  <% category.tasks.each do |task| %>
+    <p>
+    <%= task.task %> | <%= link_to "View Task", task %>
+    </p>
+  <% end %>
 
 </div>
