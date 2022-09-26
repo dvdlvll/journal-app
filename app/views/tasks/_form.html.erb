@@ -11,17 +11,17 @@
     </div>
   <% end %>
 
-  <div>
+  <div class="field form-group">
     <%= form.label :task, style: "display: block" %>
-    <%= form.text_area :task %>
+    <%= form.text_area :task, class: "form-control" %>
   </div>
 
-  <div>
+  <div class="field form-group">
     <%= form.label :category, style: "display: block" %>
-    <%= form.select :category_id, options_for_select(@categories.collect { |cat| [cat.name, cat.id] }) %>
+    <%= form.select :category_id, options_for_select(@categories.where(user_id: current_user.id).collect { |cat| [cat.name, cat.id] }) %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-success" %>
   </div>
 <% end %>

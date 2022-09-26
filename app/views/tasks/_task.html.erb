@@ -1,12 +1,22 @@
-<div id="<%= dom_id task %>">
-  <p>
-    <strong>Task:</strong>
-    <%= task.task %>
-  </p>
-
-  <p>
-    <strong>Category:</strong>
-    <%= link_to task.category.name, task.category %>
-  </p>
-
+<div class="col-md-4 single-note-item all-category">
+    <div class="card card-body">
+        <span class="side-stick"></span>
+        <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="Category: <%= task.category.name %>">Category: <%= link_to task.category.name, task.category %></h5>
+        <p class="note-date font-12 text-muted"><%= task.created_at %></p>
+        <div class="note-content">
+            <p class="note-inner-content text-muted" data-notecontent="Task: <%= task.task %>">Task: <%= task.task %></p>
+        </div>
+        <div class="d-flex align-items-center">
+            <%= link_to edit_task_path(task.id) do %> 
+                <i class="bi bi-pen" style="padding-right: 10px;"></i>
+            <% end %>
+            
+            <%= link_to task_path(task.id), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } do %>
+              <span class="mr-1"><i class="bi bi-trash3"></i></span>
+            <% end %>
+        </div>
+    </div>
 </div>

@@ -1,10 +1,15 @@
-<h1>Editing task</h1>
-
-<%= render "form", task: @task %>
+<div class="card">
+  <div class="card-header">
+    <h2>Editing Task</h2>
+  </div>
+  <div class="card-body">
+    <%= render "form", task: @task %>
+  </div>
+</div>
 
 <br>
 
 <div>
-  <%= link_to "Show this task", @task %> |
-  <%= link_to "Back to tasks", tasks_path %>
+  <%= link_to "Show this task", @task, class: "btn btn-secondary", style: "margin-right: 10px;" %>
+  <%= link_to "Back to tasks", tasks_path, class: "btn btn-secondary" %>
 </div>

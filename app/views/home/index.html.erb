@@ -1,1 +1,16 @@
-<h1>hello world</h1>
+<% if user_signed_in? %>
+    <h2>Welcome back, <%= current_user.email.split("@")[0] %>!</h2>
+    <p>
+        <%= @today_tasks.count %> <%= "task".pluralize(@today_tasks.count) %>
+        • 
+        <%= Date.today.to_formatted_s(:long) %>
+    </p>
+
+    <div id="tasks">
+        <% @today_tasks.each do |task| %>
+            <%= render task %>
+        <% end %>
+    </div>
+<% else %>
+    <h2>Please sign in to access your tasks.</h2>
+<% end %>

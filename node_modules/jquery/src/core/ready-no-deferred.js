@@ -1,12 +1,12 @@
 define( [
 	"../core",
-	"../var/document"
-], function( jQuery, document ) {
+	"../var/document",
+	"../var/isFunction"
+], function( jQuery, document, isFunction ) {
 
 "use strict";
 
 var readyCallbacks = [],
-	readyFiring = false,
 	whenReady = function( fn ) {
 		readyCallbacks.push( fn );
 	},
@@ -30,17 +30,8 @@ jQuery.extend( {
 	isReady: false,
 
 	// A counter to track how many items to wait for before
-	// the ready event fires. See #6781
+	// the ready event fires. See trac-6781
 	readyWait: 1,
-
-	// Hold (or release) the ready event
-	holdReady: function( hold ) {
-		if ( hold ) {
-			jQuery.readyWait++;
-		} else {
-			jQuery.ready( true );
-		}
-	},
 
 	ready: function( wait ) {
 
@@ -60,16 +51,11 @@ jQuery.extend( {
 		whenReady = function( fn ) {
 			readyCallbacks.push( fn );
 
-			if ( !readyFiring ) {
-				readyFiring = true;
-
-				while ( readyCallbacks.length ) {
-					fn = readyCallbacks.shift();
-					if ( jQuery.isFunction( fn ) ) {
-						executeReady( fn );
-					}
+			while ( readyCallbacks.length ) {
+				fn = readyCallbacks.shift();
+				if ( isFunction( fn ) ) {
+					executeReady( fn );
 				}
-				readyFiring = false;
 			}
 		};
 

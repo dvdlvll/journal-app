@@ -1,10 +1,11 @@
 class TasksController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_task, only: %i[ show edit update destroy ]
   before_action :set_categories
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all
+    @tasks = Task.where(user_id: current_user.id).order("task DESC") if user_signed_in?
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -23,6 +24,7 @@ class TasksController < ApplicationController
   # POST /tasks or /tasks.json
   def create
     @task = Task.new(task_params)
+    @task.update(user_id: current_user.id)
 
     respond_to do |format|
       if @task.save
@@ -51,11 +53,8 @@ class TasksController < ApplicationController
   # DELETE /tasks/1 or /tasks/1.json
   def destroy
     @task.destroy
-
-    respond_to do |format|
-      format.html { redirect_to tasks_url, notice: "Task was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to tasks_path, status: :see_other
+    flash[:notice] = "Task was successfully deleted."
   end
 
   private
@@ -66,7 +65,7 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:task, :category_id)
+      params.require(:task).permit(:task, :category_id, :user_id)
     end
 
     def set_categories
